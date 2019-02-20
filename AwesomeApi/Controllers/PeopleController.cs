@@ -13,20 +13,20 @@ namespace AwesomeApi.Controllers
             this.peopleRepository = peopleRepository;
         }
         [HttpGet]
-        public ActionResult<Person[]> Get()
+        public IActionResult Get()
         {
-            return peopleRepository.GetAll();
+            return Ok(peopleRepository.GetAll());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Person> Get(int id)
+        public IActionResult Get(int id)
         {
             var person = peopleRepository.GetById(id);
             if (person == null)
             {
                 return NotFound();
             }
-            return person;
+            return Ok(person);
         }
     }
 }
