@@ -14,10 +14,6 @@ namespace AwesomeApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IPeopleRepository, PeopleRepository>();
-            //services
-            //    .AddMvcCore()
-            //    .AddJsonFormatters()
-            //    .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         public void Configure(IWebJobsBuilder builder)
