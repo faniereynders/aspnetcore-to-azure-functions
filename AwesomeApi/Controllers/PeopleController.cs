@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.WebJobs;
 
 namespace AwesomeApi.Controllers
 {
-    [Route("api/people")]
-    [ApiController]
     public class PeopleController : ControllerBase
     {
         private readonly IPeopleRepository peopleRepository;
@@ -12,21 +12,21 @@ namespace AwesomeApi.Controllers
         {
             this.peopleRepository = peopleRepository;
         }
-        [HttpGet]
-        public ActionResult<Person[]> Get()
+        [FunctionName(nameof(GetAll))]
+        public IActionResult GetAll([HttpTrigger("get", Route = "people")]HttpRequest request)
         {
-            return peopleRepository.GetAll();
+            return Ok(peopleRepository.GetAll());
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<Person> Get(int id)
+        [FunctionName(nameof(Get))]
+        public IActionResult Get([HttpTrigger("get", Route = "people/{id}")]HttpRequest request, int id)
         {
             var person = peopleRepository.GetById(id);
             if (person == null)
             {
                 return NotFound();
             }
-            return person;
+            return Ok(person);
         }
     }
 }
